@@ -27,5 +27,7 @@ uvicorn==0.20.0
 watchfiles==0.18.1
 watchgod==0.8.2
 websockets==10.4
-email-validator==1.1.3
+email-validator
+pydantic[email]
+python-dotenv
 aiofiles
