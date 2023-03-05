@@ -31,3 +31,4 @@ email-validator
 pydantic[email]
 python-dotenv
 aiofiles
+passlib[bcrypt]
