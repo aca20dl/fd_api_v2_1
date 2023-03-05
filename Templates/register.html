@@ -1,0 +1,41 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="column">
+  <div class="ui input" id="company_name">
+    <input type="text" placeholder="Company Name">
+  </div>
+  <div class="ui input" id="company_category">
+    <select id="categories" name="categories">
+      <option value="Gas_Transport">Gas/Transport</option>
+      <option value="Grocery_Pos">Grocery_Pos</option>
+      <option value="Home">Home</option>
+      <option value="Kids_Pets">Kids_Pets</option>
+      <option value="entertainment">Entertainment</option>
+      <option value="food_dining">Food_dining</option>
+      <option value="grocery_net">Grocery_net</option>
+      <option value="health_fitness">Health/Fitness</option>
+      <option value="misc_net">misc_net</option>
+      <option value="misc_pos">misc_pos</option>
+      <option value="personal_care">Personal Care</option>
+      <option value="shopping_net">Shopping_net</option>
+      <option value="travel">Travel</option>
+      <option value="Shopping_Pos">Shopping_Pos</option>
+  </select>
+  </div>
+  <div class="ui input" id="email">
+    <input type="text" placeholder="Email address">
+  </div>
+  <div class="ui input" id="password">
+    <input type="text" placeholder="Password">
+  </div>
+  <div class="ui input" id="confirm_password">
+    <input type="text" placeholder="Confirm Password">
+  </div>
+</div>
+
+
+
+
+
+{% endblock %}
