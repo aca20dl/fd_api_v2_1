@@ -34,3 +34,4 @@ aiofiles
 passlib[bcrypt]
 pytest
 requests
+pre-commit
