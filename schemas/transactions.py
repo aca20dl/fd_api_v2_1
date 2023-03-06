@@ -1,5 +1,5 @@
 from typing import Optional
-from pydantic import BaseModel, EmailStr
+from pydantic import BaseModel
 from datetime import date, datetime
 
 
@@ -28,6 +28,7 @@ class TransactionCreate(BaseModel):
     merchant_latitude: int
     merchant_longitude: int
     is_fraud: bool
+
 
 class ShowTransaction(BaseModel):
     id: int

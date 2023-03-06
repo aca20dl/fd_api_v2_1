@@ -36,3 +36,8 @@ def create_new_transaction(transaction: TransactionCreate, db: Session):
 def retrieve_transaction(id:int, db:Session):
     transaction = db.query(Transaction).filter(Transaction.id == id).first()
     return transaction
+
+
+def list_transactions(db : Session):
+    transactions = db.query(Transaction).all()
+    return transactions

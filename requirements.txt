@@ -35,3 +35,4 @@ passlib[bcrypt]
 pytest
 requests
 pre-commit
+python-jose
