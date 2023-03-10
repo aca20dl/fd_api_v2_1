@@ -6,12 +6,14 @@ from core.config import Settings
 from apis.base import api_router
 from db.session import engine
 from db.base import Base
+from webapps.base import api_router as web_app_router
 
 templates = Jinja2Templates(directory="Templates")
 
 
 def include_router(app):
     app.include_router(api_router)
+    app.include_router(web_app_router)
 
 
 def configure_static(app):

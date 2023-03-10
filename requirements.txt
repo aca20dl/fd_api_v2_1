@@ -36,3 +36,4 @@ pytest
 requests
 pre-commit
 python-jose
+python-multipart

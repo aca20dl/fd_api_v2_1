@@ -1,0 +1,56 @@
+{% extends "shared/layout.html" %}
+
+
+{% block title %}
+  <title>Job Detail</title>
+{% endblock %}
+
+{% block content %}
+  <div class="container">
+    <div class="row">
+      <h5 class="display-5">Signup to JobBoard</h5>
+      <div class="text-danger font-weight-bold">
+          {% for error in errors %}
+            <li>{{error}}</li>
+          {% endfor %}
+      </div>
+    </div>
+
+    <div class="row my-5">
+      <form method="POST">
+        <div class="mb-3">
+          <label>Company Name</label>
+          <input type="text" required class="form-control" name="company_name" value="{{company_name}}" placeholder="Company Name">
+        </div>
+         <div class="mb-3">
+          <label>Company Category</label>
+          <select id="categories" name="categories" value="{{company_category}}">
+            <option value="Gas_Transport">Gas/Transport</option>
+            <option value="Grocery_Pos">Grocery_Pos</option>
+            <option value="Home">Home</option>
+            <option value="Kids_Pets">Kids_Pets</option>
+            <option value="entertainment">Entertainment</option>
+            <option value="food_dining">Food_dining</option>
+            <option value="grocery_net">Grocery_net</option>
+            <option value="health_fitness">Health/Fitness</option>
+            <option value="misc_net">misc_net</option>
+            <option value="misc_pos">misc_pos</option>
+            <option value="personal_care">Personal Care</option>
+            <option value="shopping_net">Shopping_net</option>
+            <option value="travel">Travel</option>
+            <option value="Shopping_Pos">Shopping_Pos</option>
+          </select>
+        </div>
+        <div class="mb-3">
+          <label>Email</label>
+          <input type="text" required placeholder="Your email" name="email" value="{{email}}" class="form-control">
+        </div>
+        <div class="mb-3">
+          <label>Password</label>
+          <input type="password" required placeholder="Choose a secure password" value="{{password}}" name="password" class="form-control">
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </form>
+    </div>
+  </div>
+  {% endblock %}
