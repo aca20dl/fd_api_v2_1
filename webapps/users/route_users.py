@@ -1,3 +1,5 @@
+from random import randint
+
 from db.repository.users import create_new_user
 from db.session import get_db
 from fastapi import APIRouter
@@ -23,8 +25,8 @@ async def register(request: Request, db: Session = Depends(get_db)):
     await form.load_data()
     if await form.is_valid():
         user = UserCreate(
-            company_name=form.company_name, email=form.email, password=form.passowrd,
-            company_category=form.company_category
+            company_name=form.company_name, email=form.email, password=form.password,
+            company_category=form.company_category, company_id=randint(1000, 9999)
         )
         try:
             user = create_new_user(user=user, db=db)
