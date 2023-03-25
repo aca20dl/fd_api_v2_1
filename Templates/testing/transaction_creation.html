@@ -1,0 +1,85 @@
+{% extends "shared/layout.html" %}
+
+{% block content %}
+
+  <div class="container">
+    <div class="row">
+      <h5 class="display-5">Create a transaction</h5>
+
+      <form method="POST">
+          <div class="row">
+            <div class="col">
+              <label>First Name</label>
+              <input type="text" required placeholder="First Name" name="first_name" id="first_name" class="form-control">
+            </div>
+            <div class="col">
+              <label>Surname</label>
+              <input type="text" required placeholder="Surname" name="surname" class="form-control">
+            </div>
+            <div class="col">
+              <label> Gender </label>
+              <select class="form-select" aria-label="Default select example" name="gender">
+                <option selected>Gender</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Non-Binary">Non-Binary</option>
+              </select>
+            </div>
+            <div class ="col">
+              <label for="dob">Date of Birth</label>
+              <input type="date" id="dob" name="dob" class="form-control">
+            </div>
+            <div class="col">
+              <label> Job </label>
+              <input type="text" placeholder="Job" name="job" class="form-control">
+            </div>
+
+        <div class="mb-3">
+          <div class = "col">
+            <label>Credit Card Number</label>
+            <input type="text" placeholder="Credit Card Number" name="cc_number" class="form-control">
+          </div>
+        </div>
+        <div class="mb-5">
+          <div class="row">
+            <div class="col">
+              <label> Country / State</label>
+              <input type="text" placeholder="Country / State" name="state" class="form-control">
+            </div>
+            <div class="col">
+              <label> City</label>
+              <input type="text" placeholder="City" name="city" class="form-control">
+            </div>
+            <div class="col">
+              <label> Street</label>
+              <input type="text" placeholder="Street" name="street" class="form-control">
+            </div>
+            <div class="col">
+              <label> ZIP Code</label>
+              <input type="text" placeholder="ZIP Code" name="zip" class="form-control">
+            </div>
+          </div>
+
+        </div>
+          <div class="mb-5">
+          <div class="row">
+            <div class="col">
+              <label> Merchant</label>
+              <input type="text" placeholder="Merchant" name="merchant" class="form-control">
+            </div>
+            <div class="col">
+              <label> Merchant Category</label>
+              <input type="text" placeholder="Merchant Category" name="merchant_category" class="form-control">
+            </div>
+            <div class="col">
+              <label> Transaction Amount</label>
+              <input type="text" placeholder="Transaction Amount" name="amount" class="form-control">
+            </div>
+          </div>
+
+        </div>
+            <button type="submit" class="btn btn-primary">Create Transaction</button>
+      </form>
+    </div>
+    </div>
+{% endblock %}

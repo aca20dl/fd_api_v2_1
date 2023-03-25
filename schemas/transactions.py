@@ -6,28 +6,28 @@ from datetime import date, datetime
 # This will be used to validate data while creating a transaction
 
 class TransactionCreate(BaseModel):
-    id: int
     first_name: str
     surname: str
     gender: str
     date_and_time: str
-    cc_number: int
+    cc_number: str
     merchant: str
     merchant_category: str
-    amount: int
+    amount: float
     city: str
     state: str
+    street: str
     zip: str
-    latitude: int
-    longitude: int
+    latitude: str
+    longitude: str
     city_population: int
     job: str
     dob: str
-    transaction_number: int
-    unix_time: int
-    merchant_latitude: int
-    merchant_longitude: int
-    is_fraud: bool
+    transaction_number: str
+    unix_time: str
+    merchant_latitude: str
+    merchant_longitude: str
+    is_fraud: int
 
 
 class ShowTransaction(BaseModel):
@@ -36,23 +36,24 @@ class ShowTransaction(BaseModel):
     surname: str
     gender: str
     date_and_time: str
-    cc_number: int
+    cc_number: str
     merchant: str
     merchant_category: str
-    amount: int
+    amount: float
     city: str
     state: str
+    street: str
     zip: str
-    latitude: int
-    longitude: int
+    latitude: str
+    longitude: str
     city_population: int
     job: str
     dob: str
-    transaction_number: int
-    unix_time: int
-    merchant_latitude: int
-    merchant_longitude: int
-    is_fraud: bool
+    transaction_number: str
+    unix_time: str
+    merchant_latitude: str
+    merchant_longitude: str
+    is_fraud: int
 
     class Config():
         orm_mode = True

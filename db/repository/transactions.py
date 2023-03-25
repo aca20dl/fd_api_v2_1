@@ -6,7 +6,6 @@ from db.models.transactions import Transaction
 
 def create_new_transaction(transaction: TransactionCreate, db: Session):
     transaction_object = Transaction(
-    id = transaction.id,
     first_name = transaction.first_name,
     surname = transaction.surname,
     gender = transaction.gender,
@@ -17,6 +16,7 @@ def create_new_transaction(transaction: TransactionCreate, db: Session):
     amount= transaction.amount,
     city= transaction.city,
     state= transaction.state,
+    street = transaction.street,
     zip= transaction.zip,
     latitude= transaction.latitude,
     longitude = transaction.longitude,
@@ -33,11 +33,20 @@ def create_new_transaction(transaction: TransactionCreate, db: Session):
     db.refresh(transaction_object)
     return transaction_object
 
-def retrieve_transaction(id:int, db:Session):
+def retrieve_transaction_by_id(id:int, db:Session):
     transaction = db.query(Transaction).filter(Transaction.id == id).first()
     return transaction
 
+def retrieve_transaction_by_name(first_name: str, surname: str, dob:str, db:Session):
+    transaction = db.query(Transaction).filter(Transaction.first_name == first_name & Transaction.surname == surname &
+                                               Transaction.dob == dob)
+    return transaction
 
-def list_transactions(db : Session):
+def retrieve_transactions_by_fraud_value(is_fraud: int, db:Session):
+    transactions = db.query(Transaction).filter(Transaction.is_fraud == is_fraud)
+    return transactions
+
+
+def list_transactions(db: Session):
     transactions = db.query(Transaction).all()
     return transactions

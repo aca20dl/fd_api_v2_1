@@ -1,0 +1,122 @@
+{% extends "shared/layout.html" %}
+
+
+{% block title %}
+  <title>Transaction History</title>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 class="display-4">Rule-Based Fraud Detection</h1>
+</div>
+<div class="table-responsive">
+  <table class="table">
+    <thead class="thead-dark">
+      <tr>
+        <th>Id.</th>
+        <th>Is Fraud</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for transaction in transactions %}
+           <tr>
+             <td>{{transaction.id}}</td>
+             <td>{{transaction.is_fraud}}</td>
+           </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+<button id="myButton" type="submit" class="btn btn-primary">Edit Rules</button>
+<div id="popup">
+  <div id="content">
+    <div class="form-check">
+      <input class="form-check-input" type="checkbox" value="" id="rule1">
+      <label class="form-check-label" for="rule1">
+        First time customer
+      </label>
+    </div>
+    <div class="form-check">
+      <input class="form-check-input" type="checkbox" value="" id="rule2">
+      <label class="form-check-label" for="rule2">
+        Time of transaction based on age
+      </label>
+    </div>
+    <div class="form-check">
+      <input class="form-check-input" type="checkbox" value="" id="rule3">
+      <label class="form-check-label" for="rule3">
+        Multiple transactions made in a short time period
+      </label>
+    </div>
+    <div class="form-check">
+      <div class="col">
+        <input class="form-check-input" type="checkbox" value="" id="rule4">
+        <label class="form-check-label" for="rule5">
+          Larger purchases than the average
+        </label>
+      </div>
+      <div class="py-2">
+        <div class="input-group mb-3">
+          <span class="input-group-text">$</span>
+          <span class="input-group-text">0.00</span>
+          <input type="text" class="form-control" aria-label="Dollar amount (with dot and two decimal places)"
+                 placeholder="Purchase Pattern">
+        </div>
+      </div>
+    </div>
+    <div class="form-check">
+      <input class="form-check-input" type="checkbox" value="" id="rule5">
+      <label class="form-check-label" for="rule5">
+        Purchases outside customer's pattern
+      </label>
+    </div>
+
+
+  </div>
+  <button id="closeButton" type="submit" class="btn btn-primary">Close</button>
+    <script>
+  // get references to the HTML elements
+  const myButton = document.getElementById('myButton');
+  const popup = document.getElementById('popup');
+  const closeButton = document.getElementById('closeButton');
+
+  // when the button is clicked, show the popup
+  myButton.addEventListener('click', (event) => {
+    event.preventDefault(); // prevent the default page reload
+    popup.style.display = 'flex';
+  });
+
+  // when the close button is clicked, hide the popup
+  closeButton.addEventListener('click', () => {
+    popup.style.display = 'none';
+  });
+</script>
+<style>
+  #popup {
+  position: fixed;
+  top: 0; bottom: 0; left: 0; right: 0;
+  background-color: rgba(0, 0, 0, 0.4);
+  display: none;
+  justify-content: center;
+  align-items: center;
+}
+
+#content {
+  background-color: white;
+  padding: 1em;
+  max-height: 80vh;
+  overflow: auto;
+  border-radius: 5px;
+}
+
+#closeButton {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+</style>
+</div>
+
+{% endblock %}
+

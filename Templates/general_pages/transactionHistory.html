@@ -10,6 +10,68 @@
     <h1 class="display-4">Transaction History</h1>
   </div>
 
+  <div class="table-responsive">
+  <table class="table">
+    <thead class="thead-dark">
+      <tr>
+        <th>Id.</th>
+        <th>Date and time</th>
+        <th>CC Num</th>
+        <th>Merchant</th>
+        <th>Category </th>
+        <th>Amount</th>
+        <th>Transaction Number</th>
+        <th>Name</th>
+        <th>Surname</th>
+        <th>Gender</th>
+        <th>Job</th>
+        <th>DOB</th>
+        <th>Street</th>
+        <th>City</th>
+        <th>Country/State</th>
+        <th>Zip</th>
+        <th>Lat</th>
+        <th>Long</th>
+        <th>Population</th>
+        <th>Merch Lat</th>
+        <th>Merch Long</th>
+        <th>Is Fraud</th>
 
+      </tr>
+    </thead>
+    <tbody>
+       {% for transaction in transactions %}
+           <tr>
+             <td>{{transaction.id}}</td>
+             <td>{{transaction.date_and_time}}</td>
+             <td>{{transaction.cc_number}}</td>
+             <td>{{transaction.merchant}}</td>
+             <td>{{transaction.merchant_category}}</td>
+             <td>{{transaction.amount}}</td>
+             <td>{{transaction.transaction_number}}</td>
+             <td>{{transaction.first_name}}</td>
+             <td>{{transaction.surname}}</td>
+             <td>{{transaction.gender}}</td>
+             <td>{{transaction.job}}</td>
+             <td>{{transaction.dob}}</td>
+             <td>{{transaction.street}}</td>
+             <td>{{transaction.city}}</td>
+             <td>{{transaction.state}}</td>
+             <td>{{transaction.zip}}</td>
+             <td>{{transaction.latitude}}</td>
+             <td>{{transaction.longitude}}</td>
+             <td>{{transaction.city_population}}</td>
+             <td>{{transaction.merchant_latitude}}</td>
+             <td>{{transaction.merchant_longitude}}</td>
+             <td>{{transaction.is_fraud}}</td>
+
+
+           </tr>
+        {% endfor %}
+    </tbody>
+
+  </table>
+
+  </div>
 
 {% endblock %}

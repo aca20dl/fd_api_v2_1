@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from sqlalchemy import Column,Integer, String, Boolean, ForeignKey
+from sqlalchemy import Column, Integer, String, Boolean, ForeignKey, Numeric
 from sqlalchemy.orm import relationship
 
 from db.base_class import Base
@@ -11,22 +11,23 @@ class Transaction(Base):
     surname = Column(String, nullable=False)
     gender = Column(String, nullable=False)
     date_and_time = Column(String, nullable=False)
-    cc_number = Column(Integer, nullable=False)
+    cc_number = Column(String, nullable=False)
     merchant = Column(String, nullable=False)
     merchant_category = Column(String, nullable=False)
-    amount = Column(Integer, nullable=False)
+    amount = Column(Numeric, nullable=False)
     city = Column(String, nullable=False)
     state = Column(String, nullable=False)
+    street = Column(String, nullable=False)
     zip = Column(String, nullable=False)
-    latitude = Column(Integer, nullable=False)
-    longitude = Column(Integer, nullable=False)
+    latitude = Column(String, nullable=False)
+    longitude = Column(String, nullable=False)
     city_population = Column(Integer, nullable=False)
     job = Column(String, nullable=False)
     dob = Column(String, nullable=False)
-    transaction_number = Column(Integer, nullable=False)
-    unix_time = Column(Integer, nullable=False)
-    merchant_latitude = Column(Integer, nullable=False)
-    merchant_longitude = Column(Integer, nullable=False)
-    is_fraud = Column(Boolean, nullable=False)
+    transaction_number = Column(String, nullable=False)
+    unix_time = Column(String, nullable=False)
+    merchant_latitude = Column(String, nullable=False)
+    merchant_longitude = Column(String, nullable=False)
+    is_fraud = Column(Integer, nullable=True)
 
 
