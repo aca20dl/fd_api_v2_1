@@ -9,5 +9,8 @@
   <div class="container">
     <h1 class="display-4">Detecting Fraud</h1>
   </div>
+  {% if user_is_logged_in %}
+    <p>User is logged in</p>
+  {% endif %}
 
 {% endblock %}

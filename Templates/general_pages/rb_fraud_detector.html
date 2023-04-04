@@ -29,51 +29,56 @@
 </div>
 
 <button id="myButton" type="submit" class="btn btn-primary">Edit Rules</button>
-<div id="popup">
-  <div id="content">
-    <div class="form-check">
-      <input class="form-check-input" type="checkbox" value="" id="rule1">
-      <label class="form-check-label" for="rule1">
-        First time customer
-      </label>
-    </div>
-    <div class="form-check">
-      <input class="form-check-input" type="checkbox" value="" id="rule2">
-      <label class="form-check-label" for="rule2">
-        Time of transaction based on age
-      </label>
-    </div>
-    <div class="form-check">
-      <input class="form-check-input" type="checkbox" value="" id="rule3">
-      <label class="form-check-label" for="rule3">
-        Multiple transactions made in a short time period
-      </label>
-    </div>
-    <div class="form-check">
-      <div class="col">
-        <input class="form-check-input" type="checkbox" value="" id="rule4">
-        <label class="form-check-label" for="rule5">
-          Larger purchases than the average
+<form action="/rule_form" method="POST">
+  <div id="popup">
+    <div id="content">
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" value="" id="rule1">
+        <label class="form-check-label" for="rule1">
+          First time customer
         </label>
       </div>
-      <div class="py-2">
-        <div class="input-group mb-3">
-          <span class="input-group-text">$</span>
-          <span class="input-group-text">0.00</span>
-          <input type="text" class="form-control" aria-label="Dollar amount (with dot and two decimal places)"
-                 placeholder="Purchase Pattern">
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" value="" id="rule2">
+        <label class="form-check-label" for="rule2">
+          Time of transaction based on age
+        </label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" value="" id="rule3">
+        <label class="form-check-label" for="rule3">
+          Multiple transactions made in a short time period
+        </label>
+      </div>
+      <div class="form-check">
+        <div class="col">
+          <input class="form-check-input" type="checkbox" value="" id="rule4">
+          <label class="form-check-label" for="rule5">
+            Larger purchases than the average
+          </label>
+        </div>
+        <div class="py-2">
+          <div class="input-group mb-3">
+            <span class="input-group-text">$</span>
+            <span class="input-group-text">0.00</span>
+            <input type="text" class="form-control" aria-label="Dollar amount (with dot and two decimal places)"
+                   placeholder="Purchase Pattern" id="purchase_pattern">
+          </div>
+          <div class="input-group mb-3">
+            <span class="input-group-text">$</span>
+            <span class="input-group-text">0.00</span>
+            <input type="text" class="form-control" aria-label="Dollar amount (with dot and two decimal places)"
+                   placeholder="Purchase Value threshold" id="purchase_pattern_threshold">
+          </div>
         </div>
       </div>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" value="" id="rule5">
+        <label class="form-check-label" for="rule5">
+          Purchases outside customer's pattern
+        </label>
+      </div>
     </div>
-    <div class="form-check">
-      <input class="form-check-input" type="checkbox" value="" id="rule5">
-      <label class="form-check-label" for="rule5">
-        Purchases outside customer's pattern
-      </label>
-    </div>
-
-
-  </div>
   <button id="closeButton" type="submit" class="btn btn-primary">Close</button>
     <script>
   // get references to the HTML elements
@@ -117,6 +122,7 @@
 }
 </style>
 </div>
+</form>
 
 {% endblock %}
 

@@ -37,6 +37,10 @@ def retrieve_transaction_by_id(id:int, db:Session):
     transaction = db.query(Transaction).filter(Transaction.id == id).first()
     return transaction
 
+def retrieve_transactions_by_merchant(merchant: str, db:Session):
+    transactions = db.query(Transaction).filter(Transaction.merchant == merchant)
+    return transactions
+
 def retrieve_transaction_by_name(first_name: str, surname: str, dob:str, db:Session):
     transaction = db.query(Transaction).filter(Transaction.first_name == first_name & Transaction.surname == surname &
                                                Transaction.dob == dob)

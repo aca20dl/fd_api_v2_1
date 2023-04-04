@@ -15,7 +15,15 @@ router = APIRouter(include_in_schema=False)
 
 @router.get("/login/")
 def login(request: Request):
-    return templates.TemplateResponse("auth/login.html", {"request": request})
+    user_is_logged_in = "access_token" in request.cookies
+    if user_is_logged_in:
+        return templates.TemplateResponse(
+            "general_pages/homepage.html",
+            {"request": request, "user_is_logged_in": user_is_logged_in}
+        )
+    else:
+
+        return templates.TemplateResponse("auth/login.html", {"request": request , "user_is_logged_in": user_is_logged_in})
 
 @router.post("/login/")
 async def login(request: Request, db:Session = Depends(get_db)):

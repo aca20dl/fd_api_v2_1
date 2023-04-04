@@ -16,7 +16,14 @@ router = APIRouter(include_in_schema=False)
 
 @router.get("/register")
 def register(request: Request):
-    return templates.TemplateResponse("users/register.html", {"request": request})
+    user_is_logged_in = "access_token" in request.cookies
+    if user_is_logged_in:
+        return templates.TemplateResponse(
+            "general_pages/homepage.html",
+            {"request": request, "user_is_logged_in": user_is_logged_in}
+        )
+    else:
+        return templates.TemplateResponse("users/register.html", {"request": request})
 
 
 @router.post("/register")

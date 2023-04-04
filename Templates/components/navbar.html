@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
   <div class="container-fluid">
-    <a class="navbar-brand" href="#">
+    <a class="navbar-brand" href="/">
       <img src="{{ url_for('static', path='images/uos.jpeg') }}" alt="" width="30" height="24">
     </a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -9,8 +9,9 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#">Home</a>
+          <a class="nav-link active" aria-current="page" href="/">Home</a>
         </li>
+        {% if user_is_logged_in %}
         <li class="nav-item">
           <a class="nav-link" href="#">Fraud Detector</a>
         </li>
@@ -19,20 +20,35 @@
             Info
           </a>
           <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <li><a class="dropdown-item" href="#">Transaction History</a></li>
+            <li><a class="dropdown-item" href="/transaction_history">Transaction History</a></li>
+            <li><a class="dropdown-item" href="/rule_form">Fraud Detection Rules</a></li>
             <li><a class="dropdown-item" href="#">Fraud Stats</a></li>
             <li><hr class="dropdown-divider"></li>
             <li><a class="dropdown-item" href="#">Business Profile</a></li>
           </ul>
         </li>
-        <li class="nav-item">
-          <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
-        </li>
+        {% endif %}
       </ul>
-      <form class="d-flex">
-        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-        <button class="btn btn-outline-success" type="submit">Search</button>
-      </form>
+      <ul class="navbar-nav ml-auto">
+        {% if user_is_logged_in %}
+        <li class="nav-item">
+          <form class="logout">
+              <a href="/logout" class="btn btn-danger">Logout</a>
+          </form>
+        </li>
+        {% else %}
+        <li class="nav-item">
+          <form class="login">
+            <a href="{{ url_for('login') }}" class="btn btn-outline-success my-2 my-sm-0">Login</a>
+          </form>
+        </li>
+        <li class="nav-item">
+          <form class="register">
+            <a href="{{ url_for('register') }}" class="btn btn-outline-success my-2 my-sm-0">Register</a>
+          </form>
+        </li>
+        {% endif %}
+      </ul>
     </div>
   </div>
 </nav>

@@ -8,7 +8,7 @@ from fastapi import status,HTTPException
 from db.session import get_db
 from core.hashing import Hasher
 from schemas.tokens import Token
-from db.repository.login import get_user
+from db.repository.login import get_user_by_id, get_user_by_email
 from core.security import create_access_token
 from core.config import settings
 from jose import JWTError, jwt
@@ -17,7 +17,8 @@ from apis.utils import OAuth2PasswordBearerWithCookie
 router = APIRouter()
 
 def authenticate_user(username: str, password: str, db: Session):
-    user = get_user(username=username, db=db)
+    # Username refers to company ID
+    user = get_user_by_id(id=username, db=db)
     print(user)
     if not user:
         return False
@@ -51,13 +52,13 @@ def get_current_user_from_token(token: str = Depends(oauth2_scheme), db: Session
     )
     try:
         payload = jwt.decode(token, settings.SECRET_KEY, algorithms=[settings.ALGORITHM])
-        username: str = payload.get("sub")
-        print("company ID extracted is ", username)
-        if username is None:
+        email: str = payload.get("sub")
+        print("company ID extracted is ", email)
+        if email is None:
             raise credentials_exception
     except JWTError:
         raise credentials_exception
-    user = get_user(username=username,db=db)
+    user = get_user_by_email(email=email,db=db)
     if user is None:
         raise credentials_exception
     return user

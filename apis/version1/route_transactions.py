@@ -9,7 +9,6 @@ from db.session import get_db
 from db.models.transactions import Transaction
 from schemas.transactions import TransactionCreate, ShowTransaction
 from db.repository.transactions import create_new_transaction, retrieve_transaction_by_id, list_transactions
-
 router = APIRouter()
 templates = Jinja2Templates(directory="Templates")
 
@@ -35,3 +34,5 @@ def read_transactions(db: Session = Depends(get_db)):
     print(List[ShowTransaction])
     transactions = list_transactions(db=db)
     return transactions
+
+
