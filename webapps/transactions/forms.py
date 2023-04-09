@@ -73,7 +73,7 @@ class TransactionCreateForm:
     def getGeoLocation(self, request: Request):
         #ip = request.client.host
         ip = "8.8.8.8"
-        url = f"https://ipapi.co/{ip}/json"
+        url = f"https://ipapi.co/{ip}/json/"
 
         r = requests.get(url)
 

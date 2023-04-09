@@ -11,25 +11,29 @@
   <form method="POST" class="px-5">
       <div class="form-group py-1">
           <div class="form-check">
-              <input class="form-check-input" type="checkbox" name="rule1" value="True">
+              <input class="form-check-input" type="checkbox" name="rule1"
+                     {% if request.cookies.first_time_customer =="True" %}checked{% endif %} >
               <label class="form-check-label">First time customer</label>
           </div>
       </div>
       <div class="form-group py-1">
           <div class="form-check">
-              <input class="form-check-input" type="checkbox" name="rule2" value="True">
+              <input class="form-check-input" type="checkbox" name="rule2"
+              {% if request.cookies.transaction_time =="True" %}checked{% endif %}>
               <label class="form-check-label">Time of transaction based on age</label>
           </div>
       </div>
       <div class="form-group py-1">
           <div class="form-check">
-              <input class="form-check-input" type="checkbox" name="rule3" value="True">
+              <input class="form-check-input" type="checkbox" name="rule3"
+              {% if request.cookies.multiple_transactions =="True" %}checked{% endif %}>
               <label class="form-check-label">Multiple transactions made in a short time period</label>
           </div>
       </div>
       <div class="form-group py-1">
           <div class="form-check">
-              <input class="form-check-input" type="checkbox" name="rule4" id="rule4" value="True">
+              <input class="form-check-input" type="checkbox" name="rule4" id="rule4"
+              {% if request.cookies.larger_purchases_avg =="True" %}checked {% endif %}>
               <label class="form-check-label">Larger purchases than the average</label>
           </div>
 
@@ -38,78 +42,110 @@
                 <span class="input-group-text">$</span>
                 <span class="input-group-text">0.00</span>
                 <input type="text" class="form-control" aria-label="Dollar amount (with dot and two decimal places)"
-                       placeholder="Average Purchase" name="avg_purchase" id="avg_purchase" disabled>
+                       placeholder="Average Purchase" name="avg_purchase" id="avg_purchase"
+                        value="{{ request.cookies.purchases_avg  | default('') }}"
+                        {% if request.cookies.larger_purchases_avg =="True" %}enabled {% else  %}disabled{% endif %}>
               </div>
               <div class="input-group mb-3">
                 <span class="input-group-text">$</span>
                 <span class="input-group-text">0.00</span>
                 <input type="text" class="form-control" aria-label="Dollar amount (with dot and two decimal places)"
-                       placeholder="Purchase Value threshold" name="avg_purchase_threshold" id="avg_purchase_threshold" disabled>
+                       placeholder="Purchase Value threshold" name="avg_purchase_threshold" id="avg_purchase_threshold"
+                       value="{{ request.cookies.purchases_avg_threshold | default('') }}"
+                       {% if request.cookies.larger_purchases_avg =="True" %}enabled {% else  %}disabled{% endif %}>
               </div>
           </div>
       </div>
       <div class="form-group py-1">
           <div class="form-check">
-              <input class="form-check-input" type="checkbox" name="rule5" id="rule5" value="True">
+              <input class="form-check-input" type="checkbox" name="rule5" id="rule5"
+                     {% if request.cookies.purchases_outside_customer_pattern =="True" %}checked{% endif %}>
               <label class="form-check-label">Purchases outside customer's pattern</label>
           </div>
           <div class="input-group mb-3">
                 <span class="input-group-text">$</span>
                 <span class="input-group-text">0.00</span>
                 <input type="text" class="form-control" aria-label="Dollar amount (with dot and two decimal places)"
-                       placeholder="Threshold" name="customer_pattern_threshold" id="customer_pattern_threshold" disabled>
+                       placeholder="Threshold" name="customer_pattern_threshold" id="customer_pattern_threshold"
+                       value="{{ request.cookies.purchase_pattern  | default('') }}"
+                        {% if request.cookies.purchases_outside_customer_pattern =="True" %}enabled {% else  %}disabled{% endif %}>
           </div>
       </div>
       <div class="form-group py-1">
           <div class="form-check">
-              <input class="form-check-input" type="checkbox" name="rule6" value="True">
+              <input class="form-check-input" type="checkbox" name="rule6"
+              {% if request.cookies.matches_zip_code =="True" %}checked{% endif %}>
               <label class="form-check-label">Address matches ZIP code</label>
           </div>
       </div>
       <div class="form-group py-1">
           <div class="form-check">
-              <input class="form-check-input" type="checkbox" name="rule7" value="True">
+              <input class="form-check-input" type="checkbox" name="rule7"
+                     {% if request.cookies.is_merchant_category_prone_to_fraud =="True" %}checked{% endif %}>
               <label class="form-check-label">Is Merchant category prone to fraud?</label>
           </div>
       </div>
       <div class="form-group py-1">
           <div class="form-check">
-              <input class="form-check-input" type="checkbox" name="rule8" value="True">
+              <input class="form-check-input" type="checkbox" name="rule8"
+                     {% if request.cookies.ip_matches_with_device_location_and_billing_adr =="True" %}checked{% endif %}>
               <label class="form-check-label">IP Address matches with device's location and billing address</label>
           </div>
       </div>
       <div class="form-group py-1">
           <div class="form-check">
-              <input class="form-check-input" type="checkbox" name="rule9" id="rule9" value="True">
+              <input class="form-check-input" type="checkbox" name="rule9" id="rule9"
+              {% if request.cookies.ip_address_volume =="True" %}checked{% endif %}>
               <label class="form-check-label">Volume of transactions of an IP address</label>
           </div>
           <div class="input-group mb-3 py-1">
                 <span class="input-group-text">$</span>
                 <span class="input-group-text">0.00</span>
                 <input type="text" class="form-control" aria-label="Dollar amount (with dot and two decimal places)"
-                       placeholder="Threshold" name="ip_volume_threshold" id="ip_volume_threshold" disabled>
+                       placeholder="Threshold" name="ip_volume_threshold" id="ip_volume_threshold"
+                       value="{{ request.cookies.ip_address_volume_threshold  | default('') }}"
+                       {% if request.cookies.ip_address_volume =="True" %}enabled {% else  %}disabled{% endif %}>
           </div>
       </div>
       <div class="form-group py-1">
           <div class="form-check">
-            <input class="form-check-input" type="checkbox" name="rule10" id="rule10" value="True">
+            <input class="form-check-input" type="checkbox" name="rule10" id="rule10"
+                   {% if request.cookies.user_volume =="True" %}checked{% endif %}>
             <label class="form-check-label">Volume of transactions of a user</label>
           </div>
           <div class="input-group mb-3 py-1">
                 <span class="input-group-text">$</span>
                 <span class="input-group-text">0.00</span>
                 <input type="text" class="form-control" aria-label="Dollar amount (with dot and two decimal places)"
-                       placeholder="Threshold" name="user_volume_threshold" id="user_volume_threshold" disabled>
+                       placeholder="Threshold" name="user_volume_threshold" id="user_volume_threshold"
+                       value="{{ request.cookies.user_volume_threshold  | default('') }}"
+                       {% if request.cookies.user_volume =="True" %}enabled {% else  %}disabled{% endif %}>
           </div>
       </div>
        <div class="form-group py-1">
           <div class="form-check">
-              <input class="form-check-input" type="checkbox" name="rule11" id="rule11">
+              <input class="form-check-input" type="checkbox" name="rule11" id="rule11"
+                     {% if request.cookies.ip_for_multiple_users =="True" %}checked{% endif %}>
               <label class="form-check-label">IP address used for multiple users</label>
           </div>
           <div class="input-group mb-3 py-1">
                 <input type="text" class="form-control"
-                       placeholder="Threshold of number of users" name="ip_matches_multiple_users" id="ip_matches_multiple_users" disabled>
+                       placeholder="Threshold of number of users" name="ip_matches_multiple_users"
+                       id="ip_matches_multiple_users" value="{{ request.cookies.ip_for_multiple_users_threshold  | default('') }}"
+                        {% if request.cookies.ip_for_multiple_users =="True" %}enabled {% else  %}disabled{% endif %}>
+          </div>
+      </div>
+      <div class="form-group py-1">
+          <div class="form-check">
+              <input class="form-check-input" type="checkbox" name="rule12" id="rule12"
+                     {% if request.cookies.ip_for_multiple_credit_cards =="True" %}checked{% endif %}>
+              <label class="form-check-label">IP address used for multiple credit cards</label>
+          </div>
+          <div class="input-group mb-3 py-1">
+                <input type="text" class="form-control"
+                       placeholder="Threshold of number of credit cards" name="ip_for_multiple_credit_cards_threshold"
+                       id="ip_matches_multiple_credit_cards_threshold" value="{{ request.cookies.ip_for_multiple_credit_cards  | default('') }}"
+                        {% if request.cookies.ip_for_multiple_credit_cards =="True" %}enabled {% else  %}disabled{% endif %}>
           </div>
       </div>
     <button type="submit" class="btn btn-primary">Submit</button>
@@ -120,13 +156,15 @@ const rule5Checkbox = document.getElementById('rule5');
 const rule9Checkbox = document.getElementById('rule9');
 const rule10Checkbox = document.getElementById('rule10');
 const rule11Checkbox = document.getElementById('rule11');
+const rule12Checkbox = document.getElementById('rule12')
 
 const avgPurchaseInput = document.getElementById('avg_purchase');
 const avgPurchaseThresholdInput = document.getElementById('avg_purchase_threshold');
-const customerPatternThresholdInput = document.getElementById('customer_pattern_threshold')
-const ipVolumeThresholdInput = document.getElementById('ip_volume_threshold')
-const userVolumeThresholdInput = document.getElementById('user_volume_threshold')
-const ipMatchesMultipleUsersInput = document.getElementById('ip_matches_multiple_users')
+const customerPatternThresholdInput = document.getElementById('customer_pattern_threshold');
+const ipVolumeThresholdInput = document.getElementById('ip_volume_threshold');
+const userVolumeThresholdInput = document.getElementById('user_volume_threshold');
+const ipMatchesMultipleUsersInput = document.getElementById('ip_matches_multiple_users');
+const ipMatchesMultipleCreditCardsInput = document.getElementById('ip_matches_multiple_credit_cards_threshold')
 rule4Checkbox.addEventListener('change', (event) => {
     if (event.target.checked) {
         avgPurchaseInput.disabled = false;
@@ -166,6 +204,14 @@ rule11Checkbox.addEventListener('change', (event) => {
     }
     else {
         ipMatchesMultipleUsersInput.disabled = true
+    }
+});
+rule12Checkbox.addEventListener('change', (event) => {
+    if (event.target.checked) {
+        ipMatchesMultipleCreditCardsInput.disabled = false
+    }
+    else {
+        ipMatchesMultipleCreditCardsInput.disabled = true
     }
 });
   </script>

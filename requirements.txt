@@ -39,3 +39,4 @@ python-jose
 python-multipart
 jose~=1.0.0
 qwikidata~=0.4.2
+numpy

@@ -50,6 +50,10 @@ def retrieve_transactions_by_fraud_value(is_fraud: int, db:Session):
     transactions = db.query(Transaction).filter(Transaction.is_fraud == is_fraud)
     return transactions
 
+def retrieve_transactions_by_time(unix_time, threshold,  db:Session):
+    transactions = db.query(Transaction).filter(Transaction.unix_time > (unix_time - threshold) &
+                                                Transaction.unix_time < unix_time)
+    return transactions
 
 def list_transactions(db: Session):
     transactions = db.query(Transaction).all()

@@ -38,3 +38,5 @@ class Rule_Management_form:
         self.user_volume_threshold = form.get("user_volume_threshold")
         self.ip_for_multiple_users = bool(form.get("rule11"))
         self.ip_for_multiple_users_threshold = form.get("ip_matches_multiple_users")
+        self.ip_for_multiple_credit_cards = form.get("rule12")
+        self.ip_for_multiple_credit_cards_threshold = form.get("ip_for_multiple_credit_cards_threshold")
