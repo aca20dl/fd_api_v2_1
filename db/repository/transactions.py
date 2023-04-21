@@ -1,4 +1,5 @@
 from sqlalchemy.orm import Session
+from sqlalchemy import and_, cast, Integer
 
 from schemas.transactions import TransactionCreate
 from db.models.transactions import Transaction
@@ -17,6 +18,7 @@ def create_new_transaction(transaction: TransactionCreate,customer: Customer, db
         state= transaction.state,
         street = transaction.street,
         zip= transaction.zip,
+        ip_address = transaction.ip_address,
         latitude= transaction.latitude,
         longitude = transaction.longitude,
         city_population= transaction.city_population,
@@ -24,6 +26,8 @@ def create_new_transaction(transaction: TransactionCreate,customer: Customer, db
         unix_time= transaction.unix_time,
         merchant_latitude= transaction.merchant_latitude,
         merchant_longitude= transaction.merchant_longitude,
+        device_latitude = transaction.device_latitude,
+        device_longitude = transaction.device_longitude,
         is_fraud= transaction.is_fraud)
     db.add(transaction_object)
     db.commit()
@@ -48,10 +52,13 @@ def retrieve_transactions_by_fraud_value(is_fraud: int, db:Session):
     return transactions
 
 def retrieve_transactions_by_time(unix_time, threshold,  db:Session):
-    transactions = db.query(Transaction).filter(Transaction.unix_time > (unix_time - threshold) &
-                                                Transaction.unix_time < unix_time)
+    transactions = db.query(Transaction).filter(
+        cast(Transaction.unix_time, Integer) > (int(unix_time) - int(threshold)),
+        cast(Transaction.unix_time, Integer) < int(unix_time)
+    )
     return transactions
 
 def list_transactions(db: Session):
     transactions = db.query(Transaction).all()
     return transactions
+

@@ -1,7 +1,54 @@
 {% extends "shared/layout.html" %}
 
 {% block content %}
+<script>
+function getLocation() {
+    return new Promise((resolve, reject) => {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+                position => {
+                    setLocation(position);
+                    resolve();
+                },
+                error => {
+                    console.log("Geolocation error:", error);
+                    reject(error);
+                }
+            );
+        } else {
+            console.log("Geolocation is not supported by this browser.");
+            reject(new Error("Geolocation not supported"));
+        }
+    });
+}
 
+function setLocation(position) {
+    const latitude = position.coords.latitude;
+    const longitude = position.coords.longitude;
+    console.log(latitude);
+    console.log(longitude);
+
+    document.getElementById("device_latitude").value = latitude;
+    document.getElementById("device_longitude").value = longitude;
+}
+
+window.onload = getLocation();
+
+async function submitForm(event) {
+    event.preventDefault(); // Prevent the default form submission behavior
+    await getLocation(); // Wait for the location data to be retrieved
+    const form = event.target;
+    form.submit(); // Submit the form manually
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+    const form = document.querySelector("form");
+    form.addEventListener("submit", submitForm);
+});
+
+
+
+    </script>
   <div class="container">
     <div class="row">
       <h5 class="display-5">Create a transaction</h5>
@@ -78,8 +125,12 @@
           </div>
 
         </div>
-            <button type="submit" class="btn btn-primary">Create Transaction</button>
+            <button type="submit" id="submit" class="btn btn-primary">Create Transaction</button>
+            <input type="hidden" name="device_latitude" id="device_latitude" value="">
+            <input type="hidden" name="device_longitude" id="device_longitude" value="">
+
+
       </form>
     </div>
-    </div>
+  </div>
 {% endblock %}

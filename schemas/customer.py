@@ -12,16 +12,28 @@ class CustomerBase(BaseModel):
     dob: str
 
 class CustomerCreate(CustomerBase):
-    numberOfTransactions: int
-    transactions_per_week: int
-    transactions_time_frame: List[str]
+    credit_card_numbers: List[str]
+    number_of_transactions: int
+    transaction_dates: List[str]
+    #transactions_per_week: int
+    transactions_time_frame: Dict[str, str]
     types_of_merchants: Dict[str, int]
+    #avg_transaction_per_category: Dict[str, float]
+    ip_addresses: Dict[str, int]
+    transactions_per_week: Dict[str, int]
+
 
 class CustomerUpdate(CustomerBase):
-    numberOfTransactions: int
-    transactions_per_week: float
-    transactions_time_frame: List[str]
+    credit_card_numbers: List[str]
+    number_of_transactions: int
+    transaction_dates: List[str]
+    #transactions_per_week: float
+    transactions_time_frame: Dict[str, str]
     types_of_merchants: Dict[str, int]
+    #avg_transaction_per_category: Dict[str, float]
+    ip_addresses: Dict[str, int]
+    transactions_per_week: Dict[str, int]
+
 
     class Config:
         orm_mode = True

@@ -18,16 +18,118 @@
       </div>
       <div class="form-group py-1">
           <div class="form-check">
-              <input class="form-check-input" type="checkbox" name="rule2"
+              <input class="form-check-input" type="checkbox" name="rule2" id="rule2"
               {% if request.cookies.transaction_time =="True" %}checked{% endif %}>
               <label class="form-check-label">Time of transaction based on age</label>
           </div>
+          <div class="container mt-3">
+            <div class="row">
+                <div class="col-md-2">
+                    <div class="d-flex flex-column">
+                        <label for="age1" >18 - 25</label>
+                        <input type="time" class="form-control" name="age1" id="age1" placeholder="Enter value"
+                               value="{{ request.cookies.age1  | default('') }}"
+                               {% if request.cookies.transaction_time =="True" %}enabled {% else  %}disabled{% endif %}>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <label for="age2">26 - 35</label>
+                    <input type="time" class="form-control" name="age2" id="age2" placeholder="Enter value"
+                           value="{{ request.cookies.age2  | default('') }}"
+                    {% if request.cookies.transaction_time =="True" %}enabled {% else  %}disabled{% endif %}>
+                </div>
+                <div class="col-md-2">
+                    <label for="age3">36 - 45</label>
+                    <input type="time" class="form-control" name="age3" id="age3" placeholder="Enter value"
+                           value="{{ request.cookies.age3  | default('') }}"
+                    {% if request.cookies.transaction_time =="True" %}enabled {% else  %}disabled{% endif %}>
+                </div>
+                <div class="col-md-2">
+                    <label for="age4">46 - 55</label>
+                    <input type="time" class="form-control" name="age4" id="age4" placeholder="Enter value"
+                           value="{{ request.cookies.age4  | default('') }}"
+                    {% if request.cookies.transaction_time =="True" %}enabled {% else  %}disabled{% endif %}>
+                </div>
+                <div class="col-md-2">
+                    <label for="age5">56 - 65</label>
+                    <input type="time" class="form-control" name="age5" id="age5" placeholder="Enter value"
+                           value="{{ request.cookies.age5  | default('') }}"
+                    {% if request.cookies.transaction_time =="True" %}enabled {% else  %}disabled{% endif %}>
+                </div>
+                <div class="col-md-2">
+                    <label for="age6">65+</label>
+                    <input type="time" class="form-control" name="age6" id="age6" placeholder="Enter value"
+                           value="{{ request.cookies.age6  | default('') }}"
+                    {% if request.cookies.transaction_time =="True" %}enabled {% else  %}disabled{% endif %}>
+                </div>
+            </div>
+              <div class="row">
+                <div class="col-md-2">
+                    <input type="time" class="form-control" name="f_age1" id="f_age1" placeholder="Enter value"
+                           value="{{ request.cookies.f_age1  | default('') }}"
+                    {% if request.cookies.transaction_time =="True" %}enabled {% else  %}disabled{% endif %}>
+                </div>
+                <div class="col-md-2">
+                    <input type="time" class="form-control" name="f_age2" id="f_age2" placeholder="Enter value"
+                           value="{{ request.cookies.f_age2  | default('') }}"
+                    {% if request.cookies.transaction_time =="True" %}enabled {% else  %}disabled{% endif %}>
+                </div>
+                <div class="col-md-2">
+                    <input type="time" class="form-control" name="f_age3" id="f_age3" placeholder="Enter value"
+                           value="{{ request.cookies.f_age3  | default('') }}"
+                    {% if request.cookies.transaction_time =="True" %}enabled {% else  %}disabled{% endif %}>
+                </div>
+                <div class="col-md-2">
+                    <input type="time" class="form-control" name="f_age4" id="f_age4" placeholder="Enter value"
+                           value="{{ request.cookies.f_age4  | default('') }}"
+                    {% if request.cookies.transaction_time =="True" %}enabled {% else  %}disabled{% endif %}>
+                </div>
+                <div class="col-md-2">
+                    <input type="time" class="form-control" name="f_age5" id="f_age5" placeholder="Enter value"
+                           value="{{ request.cookies.f_age5  | default('') }}"
+                    {% if request.cookies.transaction_time =="True" %}enabled {% else  %}disabled{% endif %}>
+                </div>
+                <div class="col-md-2">
+                    <input type="time" class="form-control" name="f_age6" id="f_age6" placeholder="Enter value"
+                           value="{{ request.cookies.f_age6  | default('') }}"
+                    {% if request.cookies.transaction_time =="True" %}enabled {% else  %}disabled{% endif %}>
+                </div>
+            </div>
+    </div>
       </div>
-      <div class="form-group py-1">
+      <div class="form-group py-3">
           <div class="form-check">
-              <input class="form-check-input" type="checkbox" name="rule3"
+              <input class="form-check-input" type="checkbox" name="rule3" id="rule3"
               {% if request.cookies.multiple_transactions =="True" %}checked{% endif %}>
-              <label class="form-check-label">Multiple transactions made in a short time period</label>
+              <label class="form-check-label">Same Credit Card used in a short time period multiple times</label>
+          </div>
+          <div class="form-check">
+              <input class="form-check-input" type="checkbox" name="rule9" id="rule9"
+              {% if request.cookies.ip_address_volume =="True" %}checked{% endif %}>
+              <label class="form-check-label">Same IP Address used in a short time period multiple times</label>
+          </div>
+          <div class="form-check">
+              <input class="form-check-input" type="checkbox" name="rule13" id="rule13"
+              {% if request.cookies.ip_address_volume =="True" %}checked{% endif %}>
+              <label class="form-check-label">Same Device Location used in a short time period multiple times</label>
+          </div>
+          <div class="py-2">
+              <div class="mb-3">
+                  <label for="num_multiple_transactions_threshold" class="mr-3">Number of transactions:</label>
+                  <input type="number" name="num_multiple_transactions_threshold"
+                         id="num_multiple_transactions_threshold"
+                         value="{{ request.cookies.num_multiple_transactions_threshold  | default('') }}"
+                         {% if request.cookies.multiple_transactions =="True"
+                         or request.cookies.ip_address_volume =="True"%}enabled {% else  %}disabled{% endif %}>
+              </div>
+               <div class="mb-3">
+                   <label for="time_threshold_m_t">Time threshold in seconds:</label>
+                  <input type="number" name="time_threshold_m_t"
+                         id="time_threshold_m_t"
+                         value="{{ request.cookies.time_threshold_m_t  | default('') }}"
+                         {% if request.cookies.multiple_transactions =="True"
+                         or request.cookies.ip_address_volume =="True"%}enabled {% else  %}disabled{% endif %}>
+              </div>
           </div>
       </div>
       <div class="form-group py-1">
@@ -94,21 +196,6 @@
       </div>
       <div class="form-group py-1">
           <div class="form-check">
-              <input class="form-check-input" type="checkbox" name="rule9" id="rule9"
-              {% if request.cookies.ip_address_volume =="True" %}checked{% endif %}>
-              <label class="form-check-label">Volume of transactions of an IP address</label>
-          </div>
-          <div class="input-group mb-3 py-1">
-                <span class="input-group-text">$</span>
-                <span class="input-group-text">0.00</span>
-                <input type="text" class="form-control" aria-label="Dollar amount (with dot and two decimal places)"
-                       placeholder="Threshold" name="ip_volume_threshold" id="ip_volume_threshold"
-                       value="{{ request.cookies.ip_address_volume_threshold  | default('') }}"
-                       {% if request.cookies.ip_address_volume =="True" %}enabled {% else  %}disabled{% endif %}>
-          </div>
-      </div>
-      <div class="form-group py-1">
-          <div class="form-check">
             <input class="form-check-input" type="checkbox" name="rule10" id="rule10"
                    {% if request.cookies.user_volume =="True" %}checked{% endif %}>
             <label class="form-check-label">Volume of transactions of a user</label>
@@ -149,22 +236,54 @@
           </div>
       </div>
     <button type="submit" class="btn btn-primary">Submit</button>
+
   </form>
   <script>
-      const rule4Checkbox = document.getElementById('rule4');
+      const rule2Checkbox = document.getElementById('rule2');
+      const rule3Checkbox = document.getElementById('rule3')
+    const rule4Checkbox = document.getElementById('rule4');
 const rule5Checkbox = document.getElementById('rule5');
 const rule9Checkbox = document.getElementById('rule9');
 const rule10Checkbox = document.getElementById('rule10');
 const rule11Checkbox = document.getElementById('rule11');
-const rule12Checkbox = document.getElementById('rule12')
+const rule12Checkbox = document.getElementById('rule12');
+const rule13Checkbox = document.getElementById('rule13');
 
 const avgPurchaseInput = document.getElementById('avg_purchase');
+const numMultipleTransactionsThreshold = document.getElementById('num_multiple_transactions_threshold')
+const timeThresholdMT = document.getElementById('time_threshold_m_t')
 const avgPurchaseThresholdInput = document.getElementById('avg_purchase_threshold');
 const customerPatternThresholdInput = document.getElementById('customer_pattern_threshold');
 const ipVolumeThresholdInput = document.getElementById('ip_volume_threshold');
 const userVolumeThresholdInput = document.getElementById('user_volume_threshold');
 const ipMatchesMultipleUsersInput = document.getElementById('ip_matches_multiple_users');
 const ipMatchesMultipleCreditCardsInput = document.getElementById('ip_matches_multiple_credit_cards_threshold')
+const age1 = document.getElementById('age1');
+const age2 = document.getElementById('age2');
+const age3 = document.getElementById('age3');
+const age4 = document.getElementById('age4');
+const age5 = document.getElementById('age5');
+const age6 = document.getElementById('age6');
+const f_age1 = document.getElementById('f_age1');
+const f_age2 = document.getElementById('f_age2');
+const f_age3 = document.getElementById('f_age3');
+const f_age4 = document.getElementById('f_age4');
+const f_age5 = document.getElementById('f_age5');
+const f_age6 = document.getElementById('f_age6');
+
+function updateInputs() {
+    const enableInputs = rule3Checkbox.checked || rule9Checkbox.checked || rule13Checkbox.checked;
+    numMultipleTransactionsThreshold.disabled = !enableInputs;
+    timeThresholdMT.disabled = !enableInputs;
+}
+
+rule3Checkbox.addEventListener('change', (event) => {
+    updateInputs();
+});
+rule13Checkbox.addEventListener('change', (event) => {
+    updateInputs();
+});
+
 rule4Checkbox.addEventListener('change', (event) => {
     if (event.target.checked) {
         avgPurchaseInput.disabled = false;
@@ -183,12 +302,7 @@ rule5Checkbox.addEventListener('change', (event) => {
     }
 });
 rule9Checkbox.addEventListener('change', (event) => {
-    if (event.target.checked) {
-        ipVolumeThresholdInput.disabled = false;
-    }
-    else {
-        ipVolumeThresholdInput.disabled = true;
-    }
+    updateInputs();
 });
 rule10Checkbox.addEventListener('change', (event) => {
     if (event.target.checked) {
@@ -214,6 +328,36 @@ rule12Checkbox.addEventListener('change', (event) => {
         ipMatchesMultipleCreditCardsInput.disabled = true
     }
 });
+rule2Checkbox.addEventListener('change', (event) => {
+    if (rule2Checkbox.checked) {
+        age1.disabled = false;
+        age2.disabled = false;
+        age3.disabled = false;
+        age4.disabled = false;
+        age5.disabled = false;
+        age6.disabled = false;
+        f_age1.disabled = false;
+        f_age2.disabled = false;
+        f_age3.disabled = false;
+        f_age4.disabled = false;
+        f_age5.disabled = false;
+        f_age6.disabled = false;
+    } else {
+        age1.disabled = true;
+        age2.disabled = true;
+        age3.disabled = true;
+        age4.disabled = true;
+        age5.disabled = true;
+        age6.disabled = true;
+        f_age1.disabled = true;
+        f_age2.disabled = true;
+        f_age3.disabled = true;
+        f_age4.disabled = true;
+        f_age5.disabled = true;
+        f_age6.disabled = true;
+
+    }
+})
   </script>
 </div>
 

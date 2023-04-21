@@ -14,6 +14,7 @@ class TransactionBase(BaseModel):
     state: str
     street: str
     zip: str
+    ip_address: str
     latitude: str
     longitude: str
     city_population: int
@@ -22,6 +23,8 @@ class TransactionBase(BaseModel):
     unix_time: str
     merchant_latitude: str
     merchant_longitude: str
+    device_latitude: str
+    device_longitude: str
     is_fraud: int
 
 class TransactionCreate(TransactionBase):
@@ -40,6 +43,7 @@ class Transaction(TransactionBase):
     class Config:
         orm_mode = True
         arbitrary_types_allowed = True
+
 
 class ShowTransaction(Transaction):
     first_name: str

@@ -33,6 +33,8 @@ class TransactionCreateForm:
         self.date_and_time: Optional[int] = None
         self.merchant_latitude: Optional[str] = None
         self.merchant_longitude: Optional[str] = None
+        self.device_latitude: Optional[str] = None
+        self.device_longitude: Optional[str] = None
         self.is_fraud: Optional[bool] = None
 
 
@@ -68,16 +70,24 @@ class TransactionCreateForm:
         self.date_and_time = str(datetime.fromtimestamp(time.time()))
         self.merchant_latitude = location_details["latitude"]
         self.merchant_longitude = location_details["longitude"]
+        self.device_latitude = form.get("device_latitude")
+        self.device_longitude = form.get("device_longitude")
         self.is_fraud = 2
 
     def getGeoLocation(self, request: Request):
         #ip = request.client.host
+        key = "wGlBET16UoZx73OkmJhv9X2gT9JDPsMyQyj1QclYc2FYkCwuaX"
         ip = "8.8.8.8"
-        url = f"https://ipapi.co/{ip}/json/"
+        url = "https://ipapi.co/json/?key=wGlBET16UoZx73OkmJhv9X2gT9JDPsMyQyj1QclYc2FYkCwuaX"
+        #url = f"https://ipapi.co/{ip}/json/{key}"
 
         r = requests.get(url)
+        print(r.text)
 
-        location_details = r.json()
+        if r.status_code == 200:
+            location_details = r.json()
+        else:
+            print("Request failed with status code:", r.status_code)
 
         return location_details
 

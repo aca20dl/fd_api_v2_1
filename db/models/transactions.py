@@ -9,7 +9,7 @@ from db.base_class import Base
 class Transaction(Base):
     id = Column(Integer, primary_key=True, index=True)
     customer_id = Column(Integer, ForeignKey('customer.id'))
-    customer = relationship(("Customer"))
+    customer = relationship("Customer")
     date_and_time = Column(String, nullable=False)
     cc_number = Column(String, nullable=False)
     merchant = Column(String, nullable=False)
@@ -19,6 +19,7 @@ class Transaction(Base):
     state = Column(String, nullable=False)
     street = Column(String, nullable=False)
     zip = Column(String, nullable=False)
+    ip_address = Column(String, nullable=True)
     latitude = Column(String, nullable=False)
     longitude = Column(String, nullable=False)
     city_population = Column(Integer, nullable=False)
@@ -26,6 +27,8 @@ class Transaction(Base):
     unix_time = Column(String, nullable=False)
     merchant_latitude = Column(String, nullable=False)
     merchant_longitude = Column(String, nullable=False)
+    device_latitude = Column(String, nullable=True)
+    device_longitude = Column(String, nullable=True)
     is_fraud = Column(Integer, nullable=True)
 
 
