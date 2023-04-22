@@ -95,8 +95,16 @@
                     {% if request.cookies.transaction_time =="True" %}enabled {% else  %}disabled{% endif %}>
                 </div>
             </div>
-    </div>
+        </div>
       </div>
+      <div class="form-group py-3">
+          <div class="form-check">
+              <input class="form-check-input" type="checkbox" name="rule10" id="rule10"
+              {% if request.cookies.transaction_time_customer_pattern =="True" %}checked{% endif %}>
+              <label class="form-check-label">Transaction Time outside customer's pattern</label>
+          </div>
+      </div>
+
       <div class="form-group py-3">
           <div class="form-check">
               <input class="form-check-input" type="checkbox" name="rule3" id="rule3"
@@ -161,16 +169,8 @@
       <div class="form-group py-1">
           <div class="form-check">
               <input class="form-check-input" type="checkbox" name="rule5" id="rule5"
-                     {% if request.cookies.purchases_outside_customer_pattern =="True" %}checked{% endif %}>
-              <label class="form-check-label">Purchases outside customer's pattern</label>
-          </div>
-          <div class="input-group mb-3">
-                <span class="input-group-text">$</span>
-                <span class="input-group-text">0.00</span>
-                <input type="text" class="form-control" aria-label="Dollar amount (with dot and two decimal places)"
-                       placeholder="Threshold" name="customer_pattern_threshold" id="customer_pattern_threshold"
-                       value="{{ request.cookies.purchase_pattern  | default('') }}"
-                        {% if request.cookies.purchases_outside_customer_pattern =="True" %}enabled {% else  %}disabled{% endif %}>
+                     {% if request.cookies.purchases_outside_customer_time_frame =="True" %}checked{% endif %}>
+              <label class="form-check-label">Purchases outside customer's time frame</label>
           </div>
       </div>
       <div class="form-group py-1">
@@ -194,49 +194,40 @@
               <label class="form-check-label">IP Address matches with device's location and billing address</label>
           </div>
       </div>
-      <div class="form-group py-1">
-          <div class="form-check">
-            <input class="form-check-input" type="checkbox" name="rule10" id="rule10"
-                   {% if request.cookies.user_volume =="True" %}checked{% endif %}>
-            <label class="form-check-label">Volume of transactions of a user</label>
-          </div>
-          <div class="input-group mb-3 py-1">
-                <span class="input-group-text">$</span>
-                <span class="input-group-text">0.00</span>
-                <input type="text" class="form-control" aria-label="Dollar amount (with dot and two decimal places)"
-                       placeholder="Threshold" name="user_volume_threshold" id="user_volume_threshold"
-                       value="{{ request.cookies.user_volume_threshold  | default('') }}"
-                       {% if request.cookies.user_volume =="True" %}enabled {% else  %}disabled{% endif %}>
-          </div>
-      </div>
-       <div class="form-group py-1">
-          <div class="form-check">
-              <input class="form-check-input" type="checkbox" name="rule11" id="rule11"
-                     {% if request.cookies.ip_for_multiple_users =="True" %}checked{% endif %}>
-              <label class="form-check-label">IP address used for multiple users</label>
-          </div>
-          <div class="input-group mb-3 py-1">
-                <input type="text" class="form-control"
-                       placeholder="Threshold of number of users" name="ip_matches_multiple_users"
-                       id="ip_matches_multiple_users" value="{{ request.cookies.ip_for_multiple_users_threshold  | default('') }}"
-                        {% if request.cookies.ip_for_multiple_users =="True" %}enabled {% else  %}disabled{% endif %}>
-          </div>
-      </div>
-      <div class="form-group py-1">
+      <div class="form-group py-3">
           <div class="form-check">
               <input class="form-check-input" type="checkbox" name="rule12" id="rule12"
                      {% if request.cookies.ip_for_multiple_credit_cards =="True" %}checked{% endif %}>
               <label class="form-check-label">IP address used for multiple credit cards</label>
           </div>
+          <div class="form-check">
+              <input class="form-check-input" type="checkbox" name="rule14" id="rule14"
+                     {% if request.cookies.location_for_multiple_credit_cards =="True" %}checked{% endif %}>
+              <label class="form-check-label">Device's Location used for multiple credit cards</label>
+          </div>
           <div class="input-group mb-3 py-1">
                 <input type="text" class="form-control"
                        placeholder="Threshold of number of credit cards" name="ip_for_multiple_credit_cards_threshold"
-                       id="ip_matches_multiple_credit_cards_threshold" value="{{ request.cookies.ip_for_multiple_credit_cards  | default('') }}"
+                       id="ip_matches_multiple_credit_cards_threshold" value="{{ request.cookies.ip_for_multiple_credit_cards_threshold  | default('') }}"
                         {% if request.cookies.ip_for_multiple_credit_cards =="True" %}enabled {% else  %}disabled{% endif %}>
           </div>
       </div>
-    <button type="submit" class="btn btn-primary">Submit</button>
+      <div class="form-group py-1">
+          <div class="form-check">
+              <input class="form-check-input" type="checkbox" name="rule15" id="rule15"
+                     {% if request.cookies.merch_location_customer_location_distance =="True" %}checked{% endif %}>
+              <label class="form-check-label">Customer's Location is out of the usual range of Merchant's</label>
+              <div class="input-group mb-3 py-1">
+                <input type="text" class="form-control"
+                       placeholder="Threshold Distance" name="merch_location_customer_location_distance_threshold"
+                       id="merch_location_customer_location_distance_threshold"
+                       value="{{ request.cookies.merch_location_customer_location_distance_threshold  | default('') }}"
+                        {% if request.cookies.merch_location_customer_location_distance =="True" %}enabled {% else  %}disabled{% endif %}>
+                </div>
+          </div>
+      </div>
 
+    <button type="submit" class="btn btn-primary">Submit</button>
   </form>
   <script>
       const rule2Checkbox = document.getElementById('rule2');
@@ -244,10 +235,10 @@
     const rule4Checkbox = document.getElementById('rule4');
 const rule5Checkbox = document.getElementById('rule5');
 const rule9Checkbox = document.getElementById('rule9');
-const rule10Checkbox = document.getElementById('rule10');
-const rule11Checkbox = document.getElementById('rule11');
 const rule12Checkbox = document.getElementById('rule12');
 const rule13Checkbox = document.getElementById('rule13');
+const rule14Checkbox = document.getElementById('rule14');
+const rule15Checkbox = document.getElementById('rule15');
 
 const avgPurchaseInput = document.getElementById('avg_purchase');
 const numMultipleTransactionsThreshold = document.getElementById('num_multiple_transactions_threshold')
@@ -258,6 +249,9 @@ const ipVolumeThresholdInput = document.getElementById('ip_volume_threshold');
 const userVolumeThresholdInput = document.getElementById('user_volume_threshold');
 const ipMatchesMultipleUsersInput = document.getElementById('ip_matches_multiple_users');
 const ipMatchesMultipleCreditCardsInput = document.getElementById('ip_matches_multiple_credit_cards_threshold')
+const locationMatchesMultipleCreditCardsInput = document.getElementById('location_matches_multiple_credit_cards_threshold')
+const merchLocationCustomerLocationDistanceInput = document.getElementById('merch_location_customer_location_distance_threshold')
+
 const age1 = document.getElementById('age1');
 const age2 = document.getElementById('age2');
 const age3 = document.getElementById('age3');
@@ -271,17 +265,22 @@ const f_age4 = document.getElementById('f_age4');
 const f_age5 = document.getElementById('f_age5');
 const f_age6 = document.getElementById('f_age6');
 
-function updateInputs() {
+function updateInputs1() {
     const enableInputs = rule3Checkbox.checked || rule9Checkbox.checked || rule13Checkbox.checked;
     numMultipleTransactionsThreshold.disabled = !enableInputs;
     timeThresholdMT.disabled = !enableInputs;
 }
+function updateInputs2() {
+    const enableInputs = rule12Checkbox.checked || rule14Checkbox.checked;
+    ipMatchesMultipleCreditCardsInput.disabled = !enableInputs;
+    locationMatchesMultipleCreditCardsInput.disabled = !enableInputs;
+}
 
 rule3Checkbox.addEventListener('change', (event) => {
-    updateInputs();
+    updateInputs1();
 });
 rule13Checkbox.addEventListener('change', (event) => {
-    updateInputs();
+    updateInputs1();
 });
 
 rule4Checkbox.addEventListener('change', (event) => {
@@ -302,31 +301,13 @@ rule5Checkbox.addEventListener('change', (event) => {
     }
 });
 rule9Checkbox.addEventListener('change', (event) => {
-    updateInputs();
-});
-rule10Checkbox.addEventListener('change', (event) => {
-    if (event.target.checked) {
-        userVolumeThresholdInput.disabled = false
-    }
-    else {
-        userVolumeThresholdInput.disabled = true
-    }
-});
-rule11Checkbox.addEventListener('change', (event) => {
-    if (event.target.checked) {
-        ipMatchesMultipleUsersInput.disabled = false
-    }
-    else {
-        ipMatchesMultipleUsersInput.disabled = true
-    }
+    updateInputs1();
 });
 rule12Checkbox.addEventListener('change', (event) => {
-    if (event.target.checked) {
-        ipMatchesMultipleCreditCardsInput.disabled = false
-    }
-    else {
-        ipMatchesMultipleCreditCardsInput.disabled = true
-    }
+    updateInputs2();
+});
+rule14Checkbox.addEventListener('change', (event) => {
+    updateInputs2();
 });
 rule2Checkbox.addEventListener('change', (event) => {
     if (rule2Checkbox.checked) {
@@ -358,6 +339,14 @@ rule2Checkbox.addEventListener('change', (event) => {
 
     }
 })
+      rule15Checkbox.addEventListener('change', (event) => {
+    if (event.target.checked) {
+        merchLocationCustomerLocationDistanceInput.disabled = false;
+    }
+    else {
+        merchLocationCustomerLocationDistanceInput.disabled = true;
+    }
+});
   </script>
 </div>
 

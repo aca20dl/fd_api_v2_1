@@ -7,7 +7,6 @@ import requests
 
 from fastapi import Request
 
-
 from db.repository.transactions import list_transactions, retrieve_transaction_by_name, retrieve_transactions_by_time
 from db.repository.customer import get_customers_by_ip, get_customer_by_transaction_id, get_customer_by_id, get_all_customers
 from db.session import get_db
@@ -257,6 +256,86 @@ def ip_address_matches_multiple_users(transaction: Transaction, db: Session(get_
     return count
     
 '''
+def category_prone_to_fraud(request: Request):
+
+    return True
+
+def ip_address_used_for_multiple_cards(request: Request, transaction, db: Session(get_db)):
+    threshold = request.cookies.get("ip_for_multiple_credit_cards_threshold")
+    transactions = list_transactions(db=db)
+    credit_cards  = []
+    count = 0
+    for transaction_x in transactions:
+        credit_card = transaction_x.cc_number
+        if credit_card not in credit_cards:
+            credit_cards.append(credit_card)
+            if transaction.ip_address == transaction_x.ip_address:
+                count = count + 1
+
+    if count > threshold:
+        return True
+    else:
+        return False
+
+def device_location_used_for_multiple_cards(request: Request, transaction, db: Session(get_db)):
+    threshold = request.cookies.get("location_for_multiple_credit_cards_threshold")
+    transactions = list_transactions(db=db)
+    credit_cards  = []
+    count = 0
+    for transaction_x in transactions:
+        credit_card = transaction_x.cc_number
+        if credit_card not in credit_cards:
+            credit_cards.append(credit_card)
+            if transaction.latitude == transaction_x.latitude & transaction.longitude == transaction_x.longitude:
+                count = count + 1
+
+    if count > threshold:
+        return True
+    else:
+        return False
+
+def get_country_from_coordinates(lat, lon):
+    url = f"https://nominatim.openstreetmap.org/reverse?format=json&lat={lat}&lon={lon}&zoom=18&addressdetails=1"
+    response = requests.get(url)
+
+    if response.status_code == 200:
+        data = response.json()
+        if "address" in data and "country" in data["address"]:
+            return data["address"]["country"]
+
+    return None
+
+def coordinates_in_same_country(lat1, lon1, lat2, lon2):
+    country1 = get_country_from_coordinates(lat1, lon1)
+    country2 = get_country_from_coordinates(lat2, lon2)
+
+    if country1 == country2:
+        return True
+    else:
+        return False
+
+
+
+ # Customer's location is out of the usual range of Merchant's Location
+def merch_loc_not_match_customer_loc(request: Request, transaction):
+    #Threshold in km
+    threshold = request.cookies.get("merch_location_customer_location_distance_threshold")
+    fraud_score = 0
+    lat = transaction.latitude
+    long = transaction.longitude
+    merch_lat = transaction.merchant_latitude
+    merch_long = transaction.merchant_longitude
+    if coordinates_in_same_country(lat, long, merch_lat, merch_long) == False:
+        fraud_score = fraud_score + 1
+
+    distance = haversine_distance(lat, long, merch_lat, merch_long)
+    if distance > threshold:
+       fraud_score = fraud_score + 1
+
+    return fraud_score
+
+
+
 
 
 
@@ -282,6 +361,11 @@ def is_category_outside_pattern():
     return False
 
 
+
+
+
+
+
 #def transaction_per_week_outside_pattern(transaction_per_week, )
 
 
@@ -298,6 +382,11 @@ def get_fraud_score(request: Request, db: Session(get_db), transaction):
     ip_address_matches_with_device_location_cookie = request.cookies.get("ip_matches_with_device_location_and_billing_adr")
     ip_address_volume_cookie = request.cookies.get("ip_address_volume")
     device_transaction_volume_cookie = request.cookies.get("device_transaction_volume")
+    merchant_category_prone_to_fraud_cookie = request.cookies.get("is_merchant_category_prone_to_fraud")
+    ip_for_multiple_credit_cards_cookie = request.cookies.get("ip_for_multiple_credit_cards")
+    location_for_multiple_credit_cards_cookie = request.cookies.get("ip_for_multiple_credit_cards")
+    transaction_time_customer_pattern_cookie = request.cookies.get("transaction_time_customer_pattern")
+    merch_location_customer_location_distance_cookie = request.cookies.get("merch_location_customer_location_distance")
 
     # Call the is_first_time_customer function
     first_time_customer = is_first_time_customer(customer.id, db)
@@ -334,6 +423,21 @@ def get_fraud_score(request: Request, db: Session(get_db), transaction):
 
     if device_transaction_volume_cookie == "True":
         score = score + multiple_transactions_same_location_short_time(request, transaction, db)
+    #if merchant_category_prone_to_fraud_cookie == "True":
+
+    if ip_for_multiple_credit_cards_cookie == "True":
+        if ip_address_used_for_multiple_cards(transaction=transaction, db=db):
+            score = score + 2
+    if transaction_time_customer_pattern_cookie == "True":
+        time_frame_dict = customer.transactions_time_frame
+        datetime_str = transaction.date_and_time
+        if not is_transaction_time_inside_pattern(time_frame=time_frame_dict, transaction_datetime_str=datetime_str):
+            score = score + 2
+
+    if merch_location_customer_location_distance_cookie == "True":
+        score = score + merch_loc_not_match_customer_loc(transaction)
+
+
 
 
     return score

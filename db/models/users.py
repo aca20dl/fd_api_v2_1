@@ -10,6 +10,7 @@ class User(Base):
     hashed_password = Column(String, nullable=False)
     company_name = Column(String, nullable=False, unique=True, index=True)
     company_category = Column(String, nullable=False)
-
+    merch_lat = Column(String, nullable=False)
+    merch_long = Column(String, nullable=False)
 
 

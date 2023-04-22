@@ -1,12 +1,20 @@
+import socket
 from datetime import datetime
 from typing import List
 from typing import Optional
+
+import psutil
 import requests
 import qwikidata
 import qwikidata.sparql
 import time
 
+
+
 from fastapi import Request
+
+
+
 
 class TransactionCreateForm:
 
@@ -17,7 +25,6 @@ class TransactionCreateForm:
         self.surname: Optional[str] = None
         self.gender: Optional[str] = None
         self.dob: Optional[str] = None
-        self.merchant: Optional[str] = None
         self.merchant_category: Optional[str] = None
         self.cc_number: Optional[str] = None
         self.amount: Optional[float] = None
@@ -31,10 +38,10 @@ class TransactionCreateForm:
         self.longitude: Optional[str] = None
         self.unix_time: Optional[str] = None
         self.date_and_time: Optional[int] = None
-        self.merchant_latitude: Optional[str] = None
-        self.merchant_longitude: Optional[str] = None
         self.device_latitude: Optional[str] = None
         self.device_longitude: Optional[str] = None
+        self.merchant_id: Optional[str] = None
+        self.ip_address: Optional[str] = None
         self.is_fraud: Optional[bool] = None
 
 
@@ -48,11 +55,11 @@ class TransactionCreateForm:
         print(country_x)
         population_details = self.getCityDetails(city_x, country_x)
         form = await self.request.form()
+        self.merchant_id = form.get("merchant")
         self.first_name = form.get("first_name")
         self.surname = form.get("surname")
         self.gender = form.get("gender")
         self.dob = form.get("dob")
-        self.merchant = form.get("merchant")
         self.merchant_category = form.get("merchant_category")
         self.cc_number = form.get("cc_number")
         self.amount = form.get("amount")
@@ -68,10 +75,9 @@ class TransactionCreateForm:
         self.longitude = location_details["longitude"]
         self.unix_time = int(time.time())
         self.date_and_time = str(datetime.fromtimestamp(time.time()))
-        self.merchant_latitude = location_details["latitude"]
-        self.merchant_longitude = location_details["longitude"]
         self.device_latitude = form.get("device_latitude")
         self.device_longitude = form.get("device_longitude")
+        self.ip_address = (self.get_inet_ip_address('wlp1s0'))
         self.is_fraud = 2
 
     def getGeoLocation(self, request: Request):
@@ -91,6 +97,7 @@ class TransactionCreateForm:
 
         return location_details
 
+    # This function
     def getCityDetails(self, city, country):
         query = """
             SELECT ?city ?cityLabel ?country ?countryLabel ?population
@@ -110,3 +117,13 @@ class TransactionCreateForm:
         res = qwikidata.sparql.return_sparql_query_results(query)
         out = res['results']['bindings'][0]
         return out
+
+
+    # This function's goal is to retrieve the IP address of the network
+    def get_inet_ip_address(self, interface_name=None):
+        for interface, addrs in psutil.net_if_addrs().items():
+            if interface_name is None or interface == interface_name:
+                for addr in addrs:
+                    if addr.family == socket.AF_INET:
+                        return addr.address
+        return None

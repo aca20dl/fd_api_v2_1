@@ -1,4 +1,5 @@
 import datetime
+import socket
 
 from fastapi import APIRouter
 from fastapi import Request, Depends, responses, status
@@ -6,8 +7,10 @@ from fastapi.templating import Jinja2Templates
 from sqlalchemy.orm import Session
 from dateutil.parser import parse
 from datetime import datetime
+import psutil
 
 from db.models.customer import Customer
+from db.repository.users import list_users, get_user_from_id
 from schemas.customer import CustomerCreate
 from schemas.transactions import TransactionCreate
 from db.repository.transactions import create_new_transaction
@@ -27,8 +30,11 @@ templates = Jinja2Templates(directory="Templates")
 router = APIRouter(include_in_schema=False)
 
 @router.get("/transaction_creation")
-async def transaction_creation(request: Request):
-    return templates.TemplateResponse("testing/transaction_creation.html", {"request": request})
+async def transaction_creation(request: Request, db: Session = Depends(get_db)):
+    users = list_users(db)
+
+
+    return templates.TemplateResponse("testing/transaction_creation.html", {"request": request, "merchants": users})
 
 @router.post("/transaction_creation")
 async def create_transaction(request: Request, db: Session = Depends(get_db)):
@@ -48,7 +54,7 @@ async def create_transaction(request: Request, db: Session = Depends(get_db)):
     #date_and_time_str = date_and_time.strftime("%Y-%m-%d %H:%M:%S.%f")
     date_and_time_str = date_and_time
     print((date_and_time_str))
-    ip_address = request.client.host
+    ip_address = form.ip_address
     retrieved_customer = retrieve_customer_by_name(first_name, surname, dob, db=db)
     if len(retrieved_customer) == 0:
         customer = Customer(first_name=first_name,
@@ -79,10 +85,11 @@ async def create_transaction(request: Request, db: Session = Depends(get_db)):
         update_customer(customer, merchant_category, date_and_time, form.amount,ip_address, form.cc_number, week_number , db)
 
 
-
+    merchant = get_user_from_id(db=db, id=form.merchant_id)
+    print(merchant)
     transaction = TransactionCreate(
         customer_id = customer.id,
-        merchant = form.merchant,
+        merchant = merchant.company_name,
         merchant_category = form.merchant_category,
         cc_number = form.cc_number,
         amount = form.amount,
@@ -90,7 +97,7 @@ async def create_transaction(request: Request, db: Session = Depends(get_db)):
         street = form.street,
         city = form.city,
         zip = form.zip,
-        ip_address = ip_address,
+        ip_address = form.ip_address,
         city_population = form.city_population,
         job = form.job,
         unix_time = form.unix_time,
@@ -98,8 +105,8 @@ async def create_transaction(request: Request, db: Session = Depends(get_db)):
         transaction_number = form.transaction_number,
         latitude = form.latitude,
         longitude = form.longitude,
-        merchant_latitude = form.merchant_latitude,
-        merchant_longitude = form.merchant_longitude,
+        merchant_latitude = merchant.merch_lat,
+        merchant_longitude = merchant.merch_long,
         device_latitude = form.device_latitude,
         device_longitude = form.device_longitude,
         is_fraud = form.is_fraud

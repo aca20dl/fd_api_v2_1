@@ -50,19 +50,23 @@ async def rule_form(request: Request, response: Response):
     larger_purchases_avg = form.larger_purchases_avg
     purchases_avg = form.purchases_avg
     purchases_avg_threshold = form.purchases_avg_threshold
-    purchases_outside_customer_pattern = form.purchases_outside_customer_pattern
+    purchases_outside_customer_time_frame = form.purchases_outside_customer_time_frame
     purchase_pattern = form.purchase_pattern
     matches_zip_code = form.matches_zip_code
     is_merchant_category_prone_to_fraud = form.is_merchant_category_prone_to_fraud
     ip_matches_with_device_location_and_billing_adr = form.ip_matches_with_device_location_and_billing_adr
     ip_address_volume = form.ip_address_volume
-    user_volume = form.user_volume
+    transaction_time_customer_pattern = form.transaction_time_customer_pattern
     user_volume_threshold = form.user_volume_threshold
     ip_for_multiple_users = form.ip_for_multiple_users
     ip_for_multiple_users_threshold = form.ip_for_multiple_users_threshold
     ip_for_multiple_credit_cards = form.ip_for_multiple_credit_cards
     ip_for_multiple_credit_cards_threshold = form.ip_for_multiple_credit_cards_threshold
     device_transaction_volume = form.device_transaction_volume
+    location_for_multiple_credit_cards = form.location_for_multiple_credit_cards
+    merch_location_customer_location_distance = form.merch_location_customer_location_distance
+    merch_location_customer_location_distance_threshold = form.merch_location_customer_location_distance_threshold
+
 
     content = templates.TemplateResponse("general_pages/fd_rules.html",
                                          {"request": request, "user_is_logged_in": user_is_logged_in},
@@ -91,25 +95,31 @@ async def rule_form(request: Request, response: Response):
     response.set_cookie(key="larger_purchases_avg", value=larger_purchases_avg, httponly=False)
     response.set_cookie(key="purchases_avg", value=purchases_avg, httponly=False)
     response.set_cookie(key="purchases_avg_threshold", value=purchases_avg_threshold, httponly=False)
-    response.set_cookie(key="purchases_outside_customer_pattern", value=purchases_outside_customer_pattern, httponly=False)
+    response.set_cookie(key="purchases_outside_customer_time_frame", value=purchases_outside_customer_time_frame, httponly=False)
     response.set_cookie(key="purchase_pattern", value=purchase_pattern, httponly=False)
     response.set_cookie(key="matches_zip_code", value=matches_zip_code, httponly=False)
     response.set_cookie(key="is_merchant_category_prone_to_fraud", value=is_merchant_category_prone_to_fraud, httponly=False)
     response.set_cookie(key="ip_matches_with_device_location_and_billing_adr", value=ip_matches_with_device_location_and_billing_adr, httponly=False)
     response.set_cookie(key="ip_address_volume", value=ip_address_volume, httponly=False)
-    response.set_cookie(key="user_volume", value=user_volume, httponly=False)
+    response.set_cookie(key="transaction_time_customer_pattern", value=transaction_time_customer_pattern, httponly=False)
     response.set_cookie(key="user_volume_threshold", value=user_volume_threshold, httponly=False)
     response.set_cookie(key="ip_for_multiple_users", value=ip_for_multiple_users, httponly=False)
     response.set_cookie(key="ip_for_multiple_users_threshold", value=ip_for_multiple_users_threshold, httponly=False)
     response.set_cookie(key="ip_for_multiple_credit_cards", value=ip_for_multiple_credit_cards, httponly=False)
     response.set_cookie(key="ip_for_multiple_credit_cards_threshold", value=ip_for_multiple_credit_cards_threshold, httponly=False)
+    response.set_cookie(key="location_for_multiple_credit_cards", value=location_for_multiple_credit_cards, httponly=False)
     response.set_cookie(key="device_transaction_volume", value=device_transaction_volume, httponly=False)
+    response.set_cookie(key="merch_location_customer_location_distance", value=merch_location_customer_location_distance, httponly=False)
+    response.set_cookie(key="merch_location_customer_location_distance_threshold", value=merch_location_customer_location_distance_threshold, httponly=False)
+
 
     # print or use the variables as needed
     print(first_time_customer, transaction_time, multiple_transactions, larger_purchases_avg, purchases_avg,
-          purchases_avg_threshold, purchases_outside_customer_pattern, purchase_pattern, matches_zip_code,
+          purchases_avg_threshold, purchases_outside_customer_time_frame, purchase_pattern, matches_zip_code,
           is_merchant_category_prone_to_fraud, ip_matches_with_device_location_and_billing_adr, ip_address_volume,
-          user_volume, user_volume_threshold, ip_for_multiple_users, ip_for_multiple_users_threshold, device_transaction_volume)
+          transaction_time_customer_pattern, user_volume_threshold, ip_for_multiple_users, merch_location_customer_location_distance,
+          merch_location_customer_location_distance_threshold,
+          location_for_multiple_credit_cards,device_transaction_volume)
 
     return response
 

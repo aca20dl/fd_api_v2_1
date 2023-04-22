@@ -33,7 +33,8 @@ async def register(request: Request, db: Session = Depends(get_db)):
     if await form.is_valid():
         user = UserCreate(
             company_name=form.company_name, email=form.email, password=form.password,
-            company_category=form.company_category, company_id=randint(1000, 9999)
+            company_category=form.company_category, company_id=randint(1000, 9999),
+            merch_lat=form.merch_lat, merch_long=form.merch_long
         )
         try:
             user = create_new_user(user=user, db=db)

@@ -111,12 +111,18 @@ document.addEventListener("DOMContentLoaded", function () {
           <div class="mb-5">
           <div class="row">
             <div class="col">
-              <label> Merchant</label>
-              <input type="text" placeholder="Merchant" name="merchant" class="form-control">
+              <label>Merchant</label>
+              <select id="merchant-dropdown" name="merchant" class="form-control" onchange="updateMerchantCategory()">
+                <option value="" data-category="">Select a merchant</option>
+                  {% for merchant in merchants %}
+                  <option value="{{merchant.id}}" data-category="{{ merchant.company_category }}">{{ merchant.company_name }}</option>
+                  {% endfor %}
+              </select>
             </div>
+
             <div class="col">
-              <label> Merchant Category</label>
-              <input type="text" placeholder="Merchant Category" name="merchant_category" class="form-control">
+                <label> Merchant Category</label>
+                <input id="merchant-category" type="text" placeholder="Merchant Category" name="merchant_category" class="form-control">
             </div>
             <div class="col">
               <label> Transaction Amount</label>
@@ -133,4 +139,21 @@ document.addEventListener("DOMContentLoaded", function () {
       </form>
     </div>
   </div>
+<script>
+  function updateMerchantCategory() {
+    const merchantDropdown = document.getElementById('merchant-dropdown');
+    const merchantCategoryInput = document.getElementById('merchant-category');
+
+    const selectedMerchant = merchantDropdown.options[merchantDropdown.selectedIndex];
+    const selectedCategory = selectedMerchant.getAttribute('data-category');
+
+    if (selectedMerchant.value) {
+        merchantCategoryInput.value = selectedCategory;
+    } else {
+        merchantCategoryInput.value = ''; // Reset the value if no merchant is selected
+    }
+}
+</script>
+
+
 {% endblock %}
