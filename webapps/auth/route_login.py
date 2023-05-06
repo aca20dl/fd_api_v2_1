@@ -35,8 +35,8 @@ async def login(request: Request, db:Session = Depends(get_db)):
             response = templates.TemplateResponse("auth/login.html", form.__dict__)
             login_for_access_token(response=response, form_data=form, db=db)
             return response
-        except HTTPException:
+        except Exception as e:  # Catch the general exception instead of HTTPException
             form.__dict__.update(msg="")
             form.__dict__.get("errors").append("Incorrect Email or Password")
-            return templates.TemplateResponse(("auth/login.html", form.__dict__))
-        return templates.TemplateResponse("auth/login.html", form.__dict__)
+            return templates.TemplateResponse("auth/login.html", form.__dict__)
+    return templates.TemplateResponse("auth/login.html", form.__dict__)

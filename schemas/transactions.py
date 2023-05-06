@@ -25,6 +25,8 @@ class TransactionBase(BaseModel):
     merchant_longitude: str
     device_latitude: str
     device_longitude: str
+    ml_prob: float
+    rb_prob: float
     is_fraud: int
 
 class TransactionCreate(TransactionBase):

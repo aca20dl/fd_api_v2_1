@@ -131,9 +131,17 @@ document.addEventListener("DOMContentLoaded", function () {
           </div>
 
         </div>
+             <div>
+            <label for="date-input">Date:</label>
+            <input type="date" id="date-input" name="date">
+            <label for="time-input">Time:</label>
+            <input type="time" id="time-input" name="time" step="0.001">
+
+          </div>
             <button type="submit" id="submit" class="btn btn-primary">Create Transaction</button>
             <input type="hidden" name="device_latitude" id="device_latitude" value="">
             <input type="hidden" name="device_longitude" id="device_longitude" value="">
+
 
 
       </form>

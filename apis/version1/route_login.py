@@ -28,7 +28,7 @@ def authenticate_user(username: str, password: str, db: Session):
 
 
 @router.post("/token", response_model=Token)
-def login_for_access_token(response: Response ,form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)):  #added response as a function parameter
+def login_for_access_token(response: Response ,form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)):
     user = authenticate_user(form_data.username, form_data.password, db)
     if not user:
         raise HTTPException(
@@ -39,11 +39,11 @@ def login_for_access_token(response: Response ,form_data: OAuth2PasswordRequestF
     access_token = create_access_token(
         data={"sub": user.email}, expires_delta=access_token_expires
     )
-    response.set_cookie(key="access_token",value=f"Bearer {access_token}", httponly=True)  #set HttpOnly cookie in response
+    response.set_cookie(key="access_token",value=f"Bearer {access_token}", httponly=True)
     return {"access_token": access_token, "token_type": "bearer"}
 
 
-oauth2_scheme = OAuth2PasswordBearerWithCookie(tokenUrl="/login/token")   #changed to use our implementation
+oauth2_scheme = OAuth2PasswordBearerWithCookie(tokenUrl="/login/token")
 
 def get_current_user_from_token(token: str = Depends(oauth2_scheme), db: Session=Depends(get_db)):
     credentials_exception = HTTPException(

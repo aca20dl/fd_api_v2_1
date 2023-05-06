@@ -73,19 +73,18 @@ class TransactionCreateForm:
         self.transaction_number = 1
         self.latitude = location_details["latitude"]
         self.longitude = location_details["longitude"]
-        self.unix_time = int(time.time())
-        self.date_and_time = str(datetime.fromtimestamp(time.time()))
+        date = form.get('date')
+        time_x = form.get('time')
+        self.date_and_time = date + ' ' + time_x
+        datetime_obj = datetime.strptime(self.date_and_time, '%Y-%m-%d %H:%M:%S.%f')
+        self.unix_time = int(time.mktime(datetime_obj.timetuple()))
         self.device_latitude = form.get("device_latitude")
         self.device_longitude = form.get("device_longitude")
         self.ip_address = (self.get_inet_ip_address('wlp1s0'))
         self.is_fraud = 2
 
     def getGeoLocation(self, request: Request):
-        #ip = request.client.host
-        key = "wGlBET16UoZx73OkmJhv9X2gT9JDPsMyQyj1QclYc2FYkCwuaX"
-        ip = "8.8.8.8"
         url = "https://ipapi.co/json/?key=wGlBET16UoZx73OkmJhv9X2gT9JDPsMyQyj1QclYc2FYkCwuaX"
-        #url = f"https://ipapi.co/{ip}/json/{key}"
 
         r = requests.get(url)
         print(r.text)
@@ -127,3 +126,4 @@ class TransactionCreateForm:
                     if addr.family == socket.AF_INET:
                         return addr.address
         return None
+

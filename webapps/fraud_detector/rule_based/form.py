@@ -59,3 +59,6 @@ class Rule_Management_form:
         self.device_transaction_volume = form.get("rule13")
         self.merch_location_customer_location_distance = bool(form.get("rule15"))
         self.merch_location_customer_location_distance_threshold = form.get("merch_location_customer_location_distance_threshold")
+        self.time_threshold = form.get("time_threshold")
+        self.distance_threshold = form.get("distance_threshold")
+        self.same_credit_card_different_location_short_time = bool(form.get("rule16"))

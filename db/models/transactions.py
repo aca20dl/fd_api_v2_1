@@ -29,6 +29,8 @@ class Transaction(Base):
     merchant_longitude = Column(String, nullable=False)
     device_latitude = Column(String, nullable=True)
     device_longitude = Column(String, nullable=True)
+    ml_prob = Column(Numeric, nullable =True)
+    rb_prob = Column(Numeric, nullable=True)
     is_fraud = Column(Integer, nullable=True)
 
 

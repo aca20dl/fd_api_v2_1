@@ -1,12 +1,17 @@
 from fastapi import FastAPI, Request
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
+from sklearn.preprocessing import StandardScaler
+
+from MLClassifier.main import Transaction, preprocess_transactions
 # from apis.version1.route_general_pages import general_pages_router
 from core.config import Settings
 from apis.base import api_router
 from db.session import engine
 from db.base import Base
 from webapps.base import api_router as web_app_router
+from MLClassifier.data_loader import x_train, y_train
+
 
 templates = Jinja2Templates(directory="Templates")
 
@@ -33,6 +38,9 @@ def start_application():
     return app
 
 app = start_application()
+
+
+
 
 
 # @app.get("/")

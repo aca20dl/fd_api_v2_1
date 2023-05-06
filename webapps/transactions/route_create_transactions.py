@@ -16,7 +16,7 @@ from schemas.transactions import TransactionCreate
 from db.repository.transactions import create_new_transaction
 from db.repository.customer import create_new_customer, update_customer, get_week_dict, get_week_number
 
-from db.repository.transactions import list_transactions
+from db.repository.transactions import list_transactions, update_transaction_fraud_value
 from db.repository.customer import retrieve_customer_by_name
 from db.session import get_db
 from sqlalchemy.exc import IntegrityError
@@ -24,6 +24,7 @@ from sqlalchemy.exc import IntegrityError
 from webapps.fraud_detector.rule_based.rb_fraud_detector import get_fraud_score
 from webapps.transactions.forms import TransactionCreateForm
 from webapps.customers.customers import average_transactions_per_week, avg_time_frame
+from MLClassifier.main import preprocess_transaction, classify_transaction_xgBoost
 
 
 templates = Jinja2Templates(directory="Templates")
@@ -37,7 +38,7 @@ async def transaction_creation(request: Request, db: Session = Depends(get_db)):
     return templates.TemplateResponse("testing/transaction_creation.html", {"request": request, "merchants": users})
 
 @router.post("/transaction_creation")
-async def create_transaction(request: Request, db: Session = Depends(get_db)):
+async def create_transaction(request: Request, db: Session = Depends(get_db), train_data = Depends):
     form = TransactionCreateForm(request)
     await form.load_data(request)
     first_name = form.first_name
@@ -109,12 +110,23 @@ async def create_transaction(request: Request, db: Session = Depends(get_db)):
         merchant_longitude = merchant.merch_long,
         device_latitude = form.device_latitude,
         device_longitude = form.device_longitude,
-        is_fraud = form.is_fraud
+        is_fraud = form.is_fraud,
+        ml_prob = 0.0,
+        rb_prob = 0.0
 
     )
     try:
         transaction = create_new_transaction(transaction=transaction,customer=customer, db=db)
-        print(get_fraud_score(request=request, db=db, transaction=transaction))
+        rb_score = (get_fraud_score(request=request, db=db, transaction=transaction))
+        ml_probability = classify_transaction_xgBoost(transaction, customer, db)
+        print("ML: ", ml_probability[0])
+        print("Rule Based: ",rb_score)
+        fraud_probability = (rb_score + ml_probability[0]) / 2
+        if fraud_probability > 0.5:
+            update_transaction_fraud_value(transaction.id, float(ml_probability[0]), float(rb_score), 1, db)
+        else:
+            update_transaction_fraud_value(transaction.id, float(ml_probability[0]), float(rb_score), 0, db)
+        print(fraud_probability)
         return responses.RedirectResponse(
             "/?msg=Successfully-Registered", status_code=status.HTTP_302_FOUND
         )
@@ -122,4 +134,9 @@ async def create_transaction(request: Request, db: Session = Depends(get_db)):
         form.__dict__.get("errors").append("Something went wrong")
         return templates.TemplateResponse("testing/transaction_creation.html", form.__dict__)
     print(transaction)
+    print("HUEHUEHEUHEUHEUHE")
+    ml_probability = classify_transaction_xgBoost(transaction, customer, db)
+    print(ml_probability)
+
+
     return transaction

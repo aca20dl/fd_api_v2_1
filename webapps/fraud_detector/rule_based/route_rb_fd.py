@@ -66,6 +66,9 @@ async def rule_form(request: Request, response: Response):
     location_for_multiple_credit_cards = form.location_for_multiple_credit_cards
     merch_location_customer_location_distance = form.merch_location_customer_location_distance
     merch_location_customer_location_distance_threshold = form.merch_location_customer_location_distance_threshold
+    time_threshold = form.time_threshold
+    distance_threshold = form.distance_threshold
+    same_credit_card_different_location_short_time = form.same_credit_card_different_location_short_time
 
 
     content = templates.TemplateResponse("general_pages/fd_rules.html",
@@ -111,6 +114,9 @@ async def rule_form(request: Request, response: Response):
     response.set_cookie(key="device_transaction_volume", value=device_transaction_volume, httponly=False)
     response.set_cookie(key="merch_location_customer_location_distance", value=merch_location_customer_location_distance, httponly=False)
     response.set_cookie(key="merch_location_customer_location_distance_threshold", value=merch_location_customer_location_distance_threshold, httponly=False)
+    response.set_cookie(key="time_threshold", value=time_threshold, httponly=False)
+    response.set_cookie(key="distance_threshold", value=distance_threshold, httponly=False)
+    response.set_cookie(key="same_credit_card_different_location_short_time", value=same_credit_card_different_location_short_time, httponly=False)
 
 
     # print or use the variables as needed
